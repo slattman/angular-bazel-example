@@ -14,3 +14,16 @@ build --symlink_prefix=/
 # Workaround rules_sass still using old 'set' constructor
 # This is an error in bazel >= 0.6 unless this flag is set
 build --incompatible_disallow_set_constructor=false
+
+# A more useful default output mode for bazel query
+# Prints eg. "ng_module rule //foo:bar" rather than just "//foo:bar"
+query --output=label_kind
+
+# By default, failing tests don't print any output, it goes to the log file
+test --test_output=errors
+
+# Show which actions are run under workers,
+# and print all the actions running in parallel.
+# Helps to demonstrate that bazel uses all the cores on the machine.
+build --experimental_ui
+test --experimental_ui

@@ -32,6 +32,13 @@ $ bazel query --output=graph ... | dot -Tpng > graph.png
 
 ![bazel query](graph.png)
 
+## Features
+
+`tsconfig.json` is shared across the entire example enterprise, as we do at Google.
+This allows global reasoning about the rules applied to TypeScript code, makes it
+easier to roll out a global refactoring, and avoids issues where a declaration file
+produced under one set of strictness options is consumed in a library with different
+options.
 
 ## Still missing
 

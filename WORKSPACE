@@ -1,3 +1,5 @@
+workspace(name = "com_bigcorp")
+
 git_repository(
     name = "build_bazel_rules_nodejs",
     remote = "https://github.com/bazelbuild/rules_nodejs.git",
@@ -15,6 +17,11 @@ local_repository(
 local_repository(
     name = "angular",
     path = "node_modules/@angular/bazel",
+)
+
+local_repository(
+    name = "karma",
+    path = "../rules_karma"
 )
 
 git_repository(
