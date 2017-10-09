@@ -1,5 +1,5 @@
 package(default_visibility = ["//visibility:public"])
-load("@karma//:index.bzl", "karma_test")
+#load("@karma//:index.bzl", "karma_test")
 load("@angular//:index.bzl", "ng_module")
 
 ng_module(
@@ -8,31 +8,21 @@ ng_module(
     deps = ["//airplane/team0/mod0:mod0","//airplane/team0/mod1:mod1","//airplane/team0/mod2:mod2","//airplane/team0/mod3:mod3","//airplane/team0/mod4:mod4","//airplane/team0/mod5:mod5","//airplane/team0/mod6:mod6","//airplane/team0/mod7:mod7","//airplane/team0/mod8:mod8","//airplane/team0/mod9:mod9"],
     tsconfig = "//:tsconfig.json",
 )
-karma_test(
-   name = "unit_tests",
-   deps = [
-       "//airplane/team0/mod0:mod0",
-       "//airplane/team0/mod1:mod1",
-       "//airplane/team0/mod2:mod2",
-       "//airplane/team0/mod3:mod3",
-       "//airplane/team0/mod4:mod4",
-       "//airplane/team0/mod5:mod5",
-       "//airplane/team0/mod6:mod6",
-       "//airplane/team0/mod7:mod7",
-       "//airplane/team0/mod8:mod8",
-       "//airplane/team0/mod9:mod9",
-       "//airplane/team0/mod0:mod0_tests",
-       "//airplane/team0/mod1:mod1_tests",
-       "//airplane/team0/mod2:mod2_tests",
-       "//airplane/team0/mod3:mod3_tests",
-       "//airplane/team0/mod4:mod4_tests",
-       "//airplane/team0/mod5:mod5_tests",
-       "//airplane/team0/mod6:mod6_tests",
-       "//airplane/team0/mod7:mod7_tests",
-       "//airplane/team0/mod8:mod8_tests",
-       "//airplane/team0/mod9:mod9_tests",
-       # FIXME(alexeagle): doesn't belong here
-       "@karma//internal/karma_concat_js",
-   ],
-   tags = ["local"]
-)
+#karma_test(
+#    name = "unit_tests",
+#    deps = ["//airplane/team0/mod0:mod0",
+#        "//airplane/team0/mod1:mod1",
+#        "//airplane/team0/mod2:mod2",
+#        "//airplane/team0/mod3:mod3",
+#        "//airplane/team0/mod4:mod4",
+#        "//airplane/team0/mod5:mod5",
+#        "//airplane/team0/mod6:mod6",
+#        "//airplane/team0/mod7:mod7",
+#        "//airplane/team0/mod8:mod8",
+#        "//airplane/team0/mod9:mod9",
+#        # FIXME(alexeagle): doesn't belong here
+#        "@karma//internal/karma_concat_js",
+#    ],
+#    tags = ["local"]
+#)
+      

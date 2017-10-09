@@ -119,7 +119,7 @@ ${teamModuleImports.join('\n')}
 export class ${teamModuleClassName}
 {}
 `, utf8);
-      
+
 
       divModuleNames.push(teamModuleClassName);
       divModuleImports.push(`import {${teamModuleClassName}} from './${teamName}/module';`);
@@ -144,30 +144,76 @@ ng_module(
 #    tags = ["local"]
 #)
       `, utf8);
-  
+
     } // for each team
-    
+
     const appContent = `
-import {NgModule} from '@angular/core';
+import {Component, NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 ${divModuleImports.join('\n')}
+
+@Component({
+  selector: '${divName}-app',
+  template: \`<h1>${divName} division homepage</h1>\`,
+})
+export class AppComponent {}
+
 @NgModule({
-    imports: [${divModuleNames.join(',')}],
+  declarations: [AppComponent],
+  bootstrap: [AppComponent],
+    imports: [
+      BrowserModule,
+      ${divModuleNames.join(',\n      ')}
+    ],
 })
 export class AppModule {}
 `;
-    fs.writeFileSync(path.join(rootDir, divName, "app.ts"), appContent, utf8);
-    fs.writeFileSync(path.join(rootDir, divName, "BUILD.bazel"), `
+    const mainContent = `
+import {platformBrowser} from '@angular/platform-browser';
+import {AppModuleNgFactory} from './app.ngfactory';
+
+platformBrowser().bootstrapModuleFactory(AppModuleNgFactory);
+`;
+    let buildContent = `
 load("@angular//:index.bzl", "ng_module")
 ng_module(
     name = "${divName}",
-    srcs = ["app.ts"],
+    srcs = ["app.ts", "main.ts"],
     deps = [
         "//shared:logo",
         ${divDeps.map(d => `"${d}"`).join(',\n        ')}
     ],
     tsconfig = "//:tsconfig.json",
 )
-`, utf8);
+`;
+    if (divName === 'airplane') buildContent += `
+load("@build_bazel_rules_nodejs//internal:devmode_js_sources.bzl", "devmode_js_sources")
+devmode_js_sources(
+    name = "devsources",
+    deps = [":${divName}"],
+)
+
+load("@build_bazel_rules_nodejs//:defs.bzl", "nodejs_binary")
+
+nodejs_binary(
+    name = "devserver",
+    entry_point = "com_bigcorp/${divName}/devserver.js",
+    data = [
+        ":index.html",
+        ":devsources",
+        # Seems like this should be included in the files[] in the :devsources
+        ":devsources.MF",
+        ":devserver.js",
+        ":patch-rxjs-amd.js",
+    ],
+    # Tell ibazel not to re-start the server under 'ibazel run'
+    # It should just re-build the data[]
+    tags = ["IBAZEL_MAGIC_TAG"],
+)
+`;
+    fs.writeFileSync(path.join(rootDir, divName, "app.ts"), appContent, utf8);
+    fs.writeFileSync(path.join(rootDir, divName, "main.ts"), mainContent, utf8);
+    fs.writeFileSync(path.join(rootDir, divName, "BUILD.bazel"), buildContent, utf8);
   } // for each division
 }
 

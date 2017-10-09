@@ -2,7 +2,7 @@
 load("@angular//:index.bzl", "ng_module")
 ng_module(
     name = "humanoid",
-    srcs = ["app.ts"],
+    srcs = ["app.ts", "main.ts"],
     deps = [
         "//shared:logo",
         "//humanoid/team0",
