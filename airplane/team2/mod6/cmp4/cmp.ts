@@ -1,7 +1,8 @@
 
 import {Component} from '@angular/core';
 @Component({
-    template: '<strong>264</strong>',
+  selector: 'cmp-264',
+  template: '<strong>264</strong>&nbsp;',
 })
 export class Cmp264Component {
   add264(x: number) {

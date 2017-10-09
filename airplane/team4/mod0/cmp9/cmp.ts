@@ -1,7 +1,8 @@
 
 import {Component} from '@angular/core';
 @Component({
-    template: '<strong>409</strong>',
+  selector: 'cmp-409',
+  template: '<strong>409</strong>&nbsp;',
 })
 export class Cmp409Component {
   add409(x: number) {

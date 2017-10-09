@@ -1,7 +1,8 @@
 
 import {Component} from '@angular/core';
 @Component({
-    template: '<strong>619</strong>',
+  selector: 'cmp-619',
+  template: '<strong>619</strong>&nbsp;',
 })
 export class Cmp619Component {
   add619(x: number) {

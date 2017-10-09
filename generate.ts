@@ -32,6 +32,7 @@ function doGenerate(rootDir: string) {
     const divDeps = [];
     const divModuleImports = [];
     const divModuleNames = [];
+    const teamSelectors = [];
 
     for (let teamCnt = 0; teamCnt < teamNum; teamCnt++) {
       const teamName = `team${teamCnt}`;
@@ -39,21 +40,25 @@ function doGenerate(rootDir: string) {
       const teamDeps = [];
       const teamModuleImports = [];
       const teamModuleNames = [];
+      const moduleSelectors = [];
 
       for (let modCnt = 0; modCnt < modNum; modCnt++) {
         const modName = `mod${modCnt}`;
         const moduleImports = [];
         const moduleNames = [];
+        const componentSelectors = [];
 
         for (let cmpCnt = 0; cmpCnt < 10; cmpCnt++) {
           const cmpName = `cmp${cmpCnt}`;
           const componentClassName = `Cmp${currentComponent}Component`;
           moduleImports.push(`import {${componentClassName}} from './${cmpName}/cmp';`);
           moduleNames.push(componentClassName);
+          componentSelectors.push(`cmp-${currentComponent}`);
           const tsContent = `
 import {Component} from '@angular/core';
 @Component({
-    template: '<strong>${currentComponent}</strong>',
+  selector: 'cmp-${currentComponent}',
+  template: '<strong>${currentComponent}</strong>&nbsp;',
 })
 export class ${componentClassName} {
   add${currentComponent}(x: number) {
@@ -96,10 +101,20 @@ ng_module(
         const moduleClassName = `Module_${divName}_${teamName}_${modName}`;
         teamModuleImports.push(`import {${moduleClassName}} from './${modName}/module';`);
         teamModuleNames.push(moduleClassName);
+        moduleSelectors.push(`${teamName}-${modName}`);
         const moduleContent = `
-import {NgModule} from '@angular/core';
+import {Component, NgModule} from '@angular/core';
 ${moduleImports.join('\n')}
-@NgModule({declarations: [${moduleNames.join(',')}]})
+@Component({
+  selector: '${teamName}-${modName}',
+  template: '<div>${teamName}: ${componentSelectors.map(s => `<${s}></${s}>`).join('')}</div>',
+})
+export class Comp {}
+
+@NgModule({
+  declarations: [Comp, ${moduleNames.join(',')}],
+  exports: [Comp],
+})
 export class ${moduleClassName} {}
 
         `;
@@ -109,12 +124,22 @@ export class ${moduleClassName} {}
         fs.writeFileSync(`${dir}/module.ts`, moduleContent, utf8);
 
       } // for each module
+      teamSelectors.push(`${teamName}-nav`);
       const teamModuleClassName = `Module_${divName}_${teamName}`;
       fs.writeFileSync(path.join(rootDir, divName, teamName, "module.ts"), `
-import {NgModule} from '@angular/core';
+import {Component, NgModule} from '@angular/core';
 ${teamModuleImports.join('\n')}
+
+@Component({
+  selector: '${teamName}-nav',
+  template: \`${moduleSelectors.map(s => `<${s}></${s}>`).join('\n')}\`,
+})
+export class Comp {}
+
 @NgModule({
-    imports: [${teamModuleNames.join(',')}],
+  declarations: [Comp],
+  imports: [${teamModuleNames.join(',')}],
+  exports: [Comp],
 })
 export class ${teamModuleClassName}
 {}
@@ -154,7 +179,9 @@ ${divModuleImports.join('\n')}
 
 @Component({
   selector: '${divName}-app',
-  template: \`<h1>${divName} division homepage</h1>\`,
+  template: \`<h1>${divName} division homepage</h1>
+  ${teamSelectors.map(s => `<${s}></${s}>`).join("\n")}
+  \`,
 })
 export class AppComponent {}
 

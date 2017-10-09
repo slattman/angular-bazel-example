@@ -14,7 +14,18 @@ import {Module_airplane_team9} from './team9/module';
 
 @Component({
   selector: 'airplane-app',
-  template: `<h1>airplane division homepage</h1>`,
+  template: `<h1>airplane division homepage</h1>
+  <team0-nav></team0-nav>
+<team1-nav></team1-nav>
+<team2-nav></team2-nav>
+<team3-nav></team3-nav>
+<team4-nav></team4-nav>
+<team5-nav></team5-nav>
+<team6-nav></team6-nav>
+<team7-nav></team7-nav>
+<team8-nav></team8-nav>
+<team9-nav></team9-nav>
+  `,
 })
 export class AppComponent {}
 

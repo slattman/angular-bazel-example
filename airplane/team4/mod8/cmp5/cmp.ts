@@ -1,7 +1,8 @@
 
 import {Component} from '@angular/core';
 @Component({
-    template: '<strong>485</strong>',
+  selector: 'cmp-485',
+  template: '<strong>485</strong>&nbsp;',
 })
 export class Cmp485Component {
   add485(x: number) {

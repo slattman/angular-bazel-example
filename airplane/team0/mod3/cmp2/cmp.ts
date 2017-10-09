@@ -1,7 +1,8 @@
 
 import {Component} from '@angular/core';
 @Component({
-    template: '<strong>32</strong>',
+  selector: 'cmp-32',
+  template: '<strong>32</strong>&nbsp;',
 })
 export class Cmp32Component {
   add32(x: number) {

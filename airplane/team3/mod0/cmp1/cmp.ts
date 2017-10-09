@@ -1,7 +1,8 @@
 
 import {Component} from '@angular/core';
 @Component({
-    template: '<strong>301</strong>',
+  selector: 'cmp-301',
+  template: '<strong>301</strong>&nbsp;',
 })
 export class Cmp301Component {
   add301(x: number) {

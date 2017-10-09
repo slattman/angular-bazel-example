@@ -1,7 +1,8 @@
 
 import {Component} from '@angular/core';
 @Component({
-    template: '<strong>8</strong>',
+  selector: 'cmp-8',
+  template: '<strong>8</strong>&nbsp;',
 })
 export class Cmp8Component {
   add8(x: number) {
