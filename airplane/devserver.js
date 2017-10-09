@@ -8,7 +8,7 @@ const app = express()
 // should be SUCCEEDED
 const IBAZEL_NOTIFY_BUILD_SUCCESS = 'IBAZEL_BUILD_COMPLETED FAILURE';
 
-const lrserver = livereload.createServer({debug: false})
+const lrserver = livereload.createServer({debug: true})
 const rl = createInterface({input: process.stdin, terminal: false});
 rl.on('line', chunk => {
   if (chunk === IBAZEL_NOTIFY_BUILD_SUCCESS) {
@@ -39,7 +39,7 @@ app.get('/bundle.js', function (req, res) {
         .replace(/('use strict'|"use strict");?/, '');
     content = JSON.stringify(`${content}\n//# sourceURL=http://concatjs/base/${file}\n`);
     content = `//${file}\neval(${content});\n`;
-    res.write(content, {encoding: 'utf-8'})
+    res.write(content, 'utf-8')
   });
   lineReader.on('close', () => {
     console.log(`bundled JS in ${new Date() - start}ms`)
